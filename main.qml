@@ -1,14 +1,12 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-import Backend
+import QtQuick 2.15
+import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.15
+import Backend 1.0
 
-Window {
+Item {
     width: 1920
     height: 1080
     visible: true
-    title: qsTr("Desktop")
-    flags: Qt.WindowStaysOnBottomHint | Qt.FramelessWindowHint | Qt.Tool | Qt.WindowDoesNotAcceptFocus
 
     Backend {
         id: backend

@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "backend.h"
+#include "desktopview.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,14 +9,14 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Backend>("Backend", 1, 0, "Backend");
 
-    QQmlApplicationEngine engine;
-    const QUrl url(u"qrc:/odysseusdesktop/main.qml"_qs);
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
+    QList<DesktopView*> desktopViews;
+    for (int i = 0; i < app.screens().length(); i++) {
+        desktopViews.append(new DesktopView(nullptr, app.screens()[i]));
+    }
+
+    for (int i = 0; i < desktopViews.length(); i++) {
+        desktopViews[i]->show();
+    }
 
     return app.exec();
 }

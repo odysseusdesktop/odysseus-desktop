@@ -5,16 +5,13 @@ project(odysseus-desktop VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.2 COMPONENTS Quick DBus REQUIRED)
+find_package(Qt5 5.15 COMPONENTS Quick DBus REQUIRED)
+find_package(KF5WindowSystem REQUIRED)
 
-qt_add_executable(odysseus-desktop
-    main.cpp backend.h backend.cpp
-)
+qt5_add_resources(RESOURCES qml.qrc)
 
-qt_add_qml_module(odysseus-desktop
-    URI odysseusdesktop
-    VERSION 1.0
-    QML_FILES main.qml
+add_executable(odysseus-desktop
+    main.cpp backend.h backend.cpp desktopview.h desktopview.cpp ${RESOURCES}
 )
 
 set_target_properties(odysseus-desktop PROPERTIES
@@ -28,7 +25,7 @@ set_target_properties(odysseus-desktop PROPERTIES
 target_compile_definitions(odysseus-desktop
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(odysseus-desktop
-    PRIVATE Qt6::Quick Qt6::DBus)
+    PRIVATE Qt5::Quick Qt5::DBus KF5::WindowSystem)
 
 install(TARGETS odysseus-desktop
     BUNDLE  DESTINATION .
