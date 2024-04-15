@@ -2,11 +2,18 @@ cmake_minimum_required(VERSION 3.16)
 
 project(odysseus-desktop VERSION 0.1 LANGUAGES CXX)
 
+# Add the cmake directory to the module path
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
+# Rest of your CMakeLists.txt file
+set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt5 5.15 COMPONENTS Quick DBus REQUIRED)
 find_package(KF5WindowSystem REQUIRED)
+find_package(XCB REQUIRED)
 
 qt5_add_resources(RESOURCES qml.qrc)
 
@@ -24,8 +31,9 @@ set_target_properties(odysseus-desktop PROPERTIES
 
 target_compile_definitions(odysseus-desktop
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
 target_link_libraries(odysseus-desktop
-    PRIVATE Qt5::Quick Qt5::DBus KF5::WindowSystem)
+    PRIVATE Qt5::Quick Qt5::DBus KF5::WindowSystem xcb)
 
 install(TARGETS odysseus-desktop
     BUNDLE  DESTINATION .

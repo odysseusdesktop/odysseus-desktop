@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QDebug>
 #include "backend.h"
 #include "desktopview.h"
 
@@ -18,5 +19,8 @@ int main(int argc, char *argv[])
         desktopViews[i]->show();
     }
 
+
     return app.exec();
 }
+
+#include "main.moc"
